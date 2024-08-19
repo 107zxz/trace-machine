@@ -1,0 +1,10 @@
+[package]
+name = "refthing"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+eframe = "*"
+egui_extras = { version = "*", features = ["all_loaders"] }
+image = {version = "*", features = ["default-formats"]}
+env_logger = "*"
