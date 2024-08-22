@@ -1,5 +1,4 @@
-use copypasta::ClipboardProvider;
-use copypasta::x11_clipboard::X11ClipboardContext;
+use copypasta::{ClipboardContext, ClipboardProvider};
 use eframe::egui::*;
 use eframe::epaint::Hsva;
 use crate::windows::image::ImageRef;
@@ -10,7 +9,7 @@ const COLOUR_OFFSET: f32 = 0.15;
 pub struct LayerView {
     trace_index: f32,
     ref_index: u32,
-    x11clipboard_context: X11ClipboardContext
+    clipboard_context: ClipboardContext
 }
 
 impl LayerView {
@@ -18,7 +17,7 @@ impl LayerView {
         Self {
             trace_index: 0.0,
             ref_index: 0,
-            x11clipboard_context: X11ClipboardContext::new().unwrap()
+            clipboard_context: ClipboardContext::new().unwrap()
         }
     }
 
@@ -46,7 +45,7 @@ impl LayerView {
                 }
 
                 if ui.button("Add URL").clicked() {
-                    let url = self.x11clipboard_context.get_contents().unwrap();
+                    let url = self.clipboard_context.get_contents().unwrap();
                     refs.push(ImageRef::new(url, format!("Ref: {}", self.ref_index)));
                     self.ref_index += 1;
                 }
