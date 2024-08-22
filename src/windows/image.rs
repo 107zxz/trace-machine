@@ -1,20 +1,24 @@
 use eframe::egui::*;
 
-pub struct Image {
+pub struct ImageRef {
     path: String,
-    title: String
+    title: String,
+    pub open: bool,
 }
 
-impl Image {
+impl ImageRef {
     pub fn new(path: String, title: String) -> Self {
-        Image {
+        ImageRef {
             path,
-            title
+            title,
+            open: true,
         }
     }
     pub fn image(&mut self, ctx: &Context) {
-        Window::new(&self.title).show(ctx, |ui| {
-            ui.image(format!("file://{}", &self.path));
-        });
+        Window::new(&self.title)
+            .open(&mut self.open)
+            .show(ctx, |ui| {
+                ui.image(&self.path);
+            });
     }
 }

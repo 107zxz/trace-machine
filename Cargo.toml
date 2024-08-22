@@ -4,7 +4,8 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-eframe = "*"
+eframe = { version = "*", features = ["persistence"] }
 egui_extras = { version = "*", features = ["all_loaders"] }
 image = {version = "*", features = ["default-formats"]}
 env_logger = "*"
+copypasta = "*"

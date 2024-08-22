@@ -1,30 +1,41 @@
+use std::hash::{Hash, Hasher};
 use eframe::egui::*;
 
 pub struct Trace {
-    pub title: String,
+    pub window_title: String,
     lines: Vec<Vec<Pos2>>,
-    stroke: Stroke,
+    pub stroke: Stroke,
     pub open: bool,
     pub enabled: bool,
+    window_id: Id,
+    pub layer_id: LayerId
 }
 
 impl Trace {
     pub fn new(title: impl Into<String>, color: Color32) -> Self {
+
+        let window_title = title.into();
+        let window_id = Id::new(window_title.clone());
+        let layer_id = LayerId::new(Order::Foreground, window_id);
+
         Trace {
-            title: title.into(),
+            window_title,
             lines: Vec::new(),
             stroke: Stroke::new(3.0, color),
             open: true,
-            enabled: true
+            enabled: true,
+            window_id,
+            layer_id
         }
     }
 
     pub fn trace(&mut self, ctx: &Context) {
 
         // Workaround: close button
-        Window::new(&self.title)
+        Window::new(&self.window_title)
             .frame(Frame::none())
             .order(Order::Foreground)
+            .id(self.window_id)
             .open(&mut self.open)
             .enabled(self.enabled)
             .show(ctx, |ui| {
@@ -35,7 +46,7 @@ impl Trace {
                     }
                 });
 
-                Frame::canvas(ui.style()).fill(Color32::TRANSPARENT).show(ui, |ui| {
+                let response = Frame::canvas(ui.style()).fill(Color32::TRANSPARENT).show(ui, |ui| {
                     let (mut response, painter) = ui.allocate_painter(ui.available_size(), Sense::drag());
 
                     let to_screen = emath::RectTransform::from_to(
@@ -73,6 +84,14 @@ impl Trace {
 
                     painter.extend(shapes);
                 });
+
+                response.response.on_hover_cursor(CursorIcon::Crosshair);
             });
+    }
+}
+
+impl Hash for Trace {
+    fn hash<H: Hasher>(&self, state: &mut H) {
+        self.window_title.hash(state);
     }
 }
