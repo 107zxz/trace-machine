@@ -1,0 +1,5 @@
+trunk-version = "*"
+
+[build]
+dist = "docs"
+release = true
