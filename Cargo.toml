@@ -9,10 +9,10 @@ egui_extras = { git = "https://github.com/bircni/egui/", branch="patch05", featu
 image = {version = "*", features = ["default-formats"]}
 env_logger = "*"
 copypasta = "*"
+log = "*"
 
 # web:
 [target.'cfg(target_arch = "wasm32")'.dependencies]
 wasm-bindgen = "*"
 wasm-bindgen-futures = "*"
-log = "*"
 

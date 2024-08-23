@@ -2,7 +2,6 @@ mod windows;
 
 use eframe::egui;
 use eframe::egui::{Key, ViewportCommand};
-use wasm_bindgen::JsCast;
 
 #[cfg(not(target_arch = "wasm32"))]
 fn main() -> eframe::Result {
@@ -23,6 +22,8 @@ fn main() -> eframe::Result {
     )
 }
 
+#[cfg(target_arch = "wasm32")]
+use wasm_bindgen::JsCast;
 #[cfg(target_arch = "wasm32")]
 fn main () {
     eframe::WebLogger::init(log::LevelFilter::Debug).ok();
