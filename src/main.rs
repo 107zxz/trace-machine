@@ -3,6 +3,7 @@ mod windows;
 use eframe::egui;
 use eframe::egui::{Key, ViewportCommand};
 
+#[cfg(not(target_arch = "wasm32"))]
 fn main() -> eframe::Result {
     env_logger::init(); // Log to stderr (if you run with `RUST_LOG=debug`).
     let options = eframe::NativeOptions {
@@ -19,6 +20,26 @@ fn main() -> eframe::Result {
             Ok(Box::<MyApp>::default())
         }),
     )
+}
+
+#[cfg(target_arch = "wasm32")]
+fn main () {
+    eframe::WebLogger::init(log::LevelFilter::Debug).ok();
+
+    let web_options = eframe::WebOptions::default();
+
+    wasm_bindgen_futures::spawn_local(async {
+        let start_result = eframe::WebRunner::new()
+            .start(
+                "the_canvas_id",
+                web_options,
+                Box::new(|cc| {
+                    egui_extras::install_image_loaders(&cc.egui_ctx);
+                    Ok(Box::new(MyApp::default()))
+                }),
+            )
+            .await;
+    });
 }
 
 struct MyApp {

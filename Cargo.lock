@@ -3016,6 +3016,9 @@ dependencies = [
  "egui_extras",
  "env_logger",
  "image",
+ "log",
+ "wasm-bindgen",
+ "wasm-bindgen-futures",
 ]
 
 [[package]]

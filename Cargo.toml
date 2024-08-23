@@ -9,3 +9,10 @@ egui_extras = { version = "*", features = ["all_loaders"] }
 image = {version = "*", features = ["default-formats"]}
 env_logger = "*"
 copypasta = "*"
+
+# web:
+[target.'cfg(target_arch = "wasm32")'.dependencies]
+wasm-bindgen = "*"
+wasm-bindgen-futures = "*"
+log = "*"
+
