@@ -24,7 +24,9 @@ jobs:
 
       - run: trunk build --release
 
-      - run: find /
+      - run: pwd
+
+      - run: find .
 
       - uses: peaceiris/actions-gh-pages@v4
         with:
