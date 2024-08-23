@@ -2,6 +2,7 @@ mod windows;
 
 use eframe::egui;
 use eframe::egui::{Key, ViewportCommand};
+use wasm_bindgen::JsCast;
 
 #[cfg(not(target_arch = "wasm32"))]
 fn main() -> eframe::Result {
@@ -29,16 +30,16 @@ fn main () {
     let web_options = eframe::WebOptions::default();
 
     wasm_bindgen_futures::spawn_local(async {
-        let start_result = eframe::WebRunner::new()
+        eframe::WebRunner::new()
             .start(
-                "the_canvas_id",
+                eframe::web_sys::window().unwrap().document().unwrap().get_element_by_id("the_canvas_id").unwrap().dyn_into().unwrap(),
                 web_options,
                 Box::new(|cc| {
                     egui_extras::install_image_loaders(&cc.egui_ctx);
                     Ok(Box::new(MyApp::default()))
                 }),
             )
-            .await;
+            .await.expect("Failed to start webrunner");
     });
 }
 

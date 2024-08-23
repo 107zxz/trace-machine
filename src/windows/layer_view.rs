@@ -1,6 +1,7 @@
 use copypasta::{ClipboardContext, ClipboardProvider};
 use eframe::egui::*;
 use eframe::epaint::Hsva;
+use log::{log, Level};
 use crate::windows::image::ImageRef;
 use crate::windows::trace::Trace;
 
@@ -46,6 +47,9 @@ impl LayerView {
 
                 if ui.button("Add URL").clicked() {
                     let url = self.clipboard_context.get_contents().unwrap();
+
+                    log!(Level::Error, "Image url: {}", url);
+
                     refs.push(ImageRef::new(url, format!("Ref: {}", self.ref_index)));
                     self.ref_index += 1;
                 }
