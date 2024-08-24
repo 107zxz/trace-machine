@@ -68,14 +68,17 @@ impl LayerView {
                     self.add_url_win.active = true;
                 }
 
+                // TODO: Move this to add_ref_url
                 if self.add_url_win.active {
                     Window::new("Add reference from URL").show(ctx, |ui| {
                         ui.horizontal_centered(|ui| {
                             ui.text_edit_singleline(&mut self.add_url_win.url);
                             if ui.button("Add").clicked() {
-                                log!(Level::Error, "Image url: {}", self.add_url_win.url);
+                                let formatted_url = format!("https://corsproxy.io/?{}", self.add_url_win.url);
 
-                                refs.push(ImageRef::new(self.add_url_win.url.clone(), format!("Ref: {}", self.ref_index)));
+                                log!(Level::Error, "Image url: {}", formatted_url);
+
+                                refs.push(ImageRef::new(formatted_url, format!("Ref: {}", self.ref_index)));
                                 self.ref_index += 1;
 
                                 self.add_url_win.active = false;
