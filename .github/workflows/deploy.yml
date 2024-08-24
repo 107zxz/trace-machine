@@ -24,11 +24,9 @@ jobs:
 
       - run: trunk build --release
 
-      - run: pwd
-
-      - run: find .
-
       - uses: peaceiris/actions-gh-pages@v4
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ github.token }}
           publish_dir: ./dist
+
+#      - uses: actions/deploy-pages@v4
