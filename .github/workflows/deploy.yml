@@ -25,7 +25,7 @@ jobs:
       - uses: jetli/trunk-action@v0.1.0
       - uses: jetli/wasm-bindgen-action@v0.1.0
 
-      - run: trunk build --release
+      - run: trunk build --release --public-url trace-machine
 
       - uses: peaceiris/actions-gh-pages@v4
         if: github.ref == 'refs/heads/master'
