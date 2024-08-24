@@ -70,7 +70,7 @@ impl LayerView {
 
                 if self.add_url_win.active {
                     Window::new("Add reference from URL").show(ctx, |ui| {
-                        ui.centered_and_justified(|ui| {
+                        ui.horizontal_centered(|ui| {
                             ui.text_edit_singleline(&mut self.add_url_win.url);
                             if ui.button("Add").clicked() {
                                 log!(Level::Error, "Image url: {}", self.add_url_win.url);
