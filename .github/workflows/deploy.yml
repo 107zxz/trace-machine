@@ -8,10 +8,15 @@ jobs:
     runs-on: ubuntu-latest
 
     permissions:
-      pages: write      # to deploy to Pages
-      id-token: write   # to verify the deployment originates from an appropriate source
+      contents: write
+
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}
 
     steps:
+
+      - uses: actions/checkout@v4
+
       - uses: actions-rs/toolchain@v1
         with:
           toolchain: stable
@@ -20,13 +25,12 @@ jobs:
       - uses: jetli/trunk-action@v0.1.0
       - uses: jetli/wasm-bindgen-action@v0.1.0
 
-      - uses: actions/checkout@v4
-
       - run: trunk build --release
 
       - uses: peaceiris/actions-gh-pages@v4
+        if: github.ref == 'refs/heads/master'
         with:
-          github_token: ${{ github.token }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist
 
 #      - uses: actions/deploy-pages@v4
